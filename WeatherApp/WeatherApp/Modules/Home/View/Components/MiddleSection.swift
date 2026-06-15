@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import SDWebImageSwiftUI
 struct MiddleSection: View {
     let weather: WeatherResponse
     let textColor: Color
@@ -29,12 +29,11 @@ struct MiddleSection: View {
                         
                         Spacer()
                         
-                        AsyncImage(url: URL(string: "https:\(day.day.condition.icon)")) { image in
-                            image.resizable().scaledToFit()
-                        } placeholder: {
-                            ProgressView()
-                        }
-                        .frame(width: 30, height: 30)
+                        WebImage(url: URL(string: "https:\(day.day.condition.icon)"))
+                            .resizable()
+                            .indicator(.progress)
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
                         
                         Spacer()
                         

@@ -16,6 +16,9 @@ class HomeViewModel: ObservableObject {
     private let networkService = NetworkService()
     
     var isMorning: Bool {
+        if let isDay = weather?.current.isDay {
+            return isDay == 1
+        }
         let hour = Calendar.current.component(.hour, from: Date())
         return hour >= 5 && hour < 18
     }
@@ -23,10 +26,15 @@ class HomeViewModel: ObservableObject {
     var textColor: Color {
         return isMorning ? .black : .white
     }
+    func loadInitialWeather() {
+            if weather == nil {
+                fetchWeather()
+            }
+        }
     
     func fetchWeather(lat: Double = 31.2001, lon: Double = 29.9187) {
         isLoading = true
-        
+        print(isMorning)
         networkService.fatchWeather(lat: lat, lon: lon) { [weak self] result in
             DispatchQueue.main.async {
                 self?.isLoading = false

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import SDWebImageSwiftUI
 struct TopSection: View {
     let weather: WeatherResponse
     
@@ -26,12 +26,13 @@ struct TopSection: View {
                     .font(.body)
             }
             
-            AsyncImage(url: URL(string: "https:\(weather.current.condition.icon)")) { image in
-                image.resizable().scaledToFit().background(Color(UIColor.white)).clipShape(Circle())
-            } placeholder: {
-                ProgressView()
-            }
-            .frame(width: 64, height: 64)
+            WebImage(url: URL(string: "https:\(weather.current.condition.icon)"))
+                .resizable()
+                .indicator(.progress) 
+                .scaledToFit()
+                .background(Color.white)
+                .clipShape(Circle())
+                .frame(width: 64, height: 64)
         }
     }
 }

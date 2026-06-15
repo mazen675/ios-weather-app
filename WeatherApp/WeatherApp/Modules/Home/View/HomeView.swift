@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
-    
+    @State private var isViewingSearchedCity = false
     var body: some View {
         NavigationStack {
             ZStack {
@@ -43,7 +43,33 @@ struct HomeView: View {
                 }
             }
             .onAppear {
-                viewModel.fetchWeather()
+                viewModel.loadInitialWeather()
+            }.toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: CitiesView { selectedLat, selectedLon in
+                        viewModel.fetchWeather(lat: selectedLat, lon: selectedLon)
+                        isViewingSearchedCity = true
+                    }) {
+                        Image(systemName: "list.bullet")
+                            .font(.title3)
+                            .foregroundColor(viewModel.textColor)
+                    }
+                }
+                
+                if isViewingSearchedCity {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            viewModel.fetchWeather()
+                            isViewingSearchedCity = false
+                        }) {
+                            HStack {
+                                Image(systemName: "house")
+                                Text("Home")
+                            }
+                            .foregroundColor(viewModel.textColor)
+                        }
+                    }
+                }
             }
         }
     }
