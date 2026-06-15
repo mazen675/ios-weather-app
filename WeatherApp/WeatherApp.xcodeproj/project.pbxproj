@@ -24,6 +24,7 @@
 		31343EC82FE0885D00E225CF /* TopSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31343EC72FE0885D00E225CF /* TopSection.swift */; };
 		31343ECA2FE08B7900E225CF /* MiddleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31343EC92FE08B7900E225CF /* MiddleSection.swift */; };
 		31343ECC2FE08B8800E225CF /* BottomSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31343ECB2FE08B8800E225CF /* BottomSection.swift */; };
+		31343ED02FE0904700E225CF /* ForecastDayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31343ECF2FE0904700E225CF /* ForecastDayViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		31343EC72FE0885D00E225CF /* TopSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSection.swift; sourceTree = "<group>"; };
 		31343EC92FE08B7900E225CF /* MiddleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleSection.swift; sourceTree = "<group>"; };
 		31343ECB2FE08B8800E225CF /* BottomSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSection.swift; sourceTree = "<group>"; };
+		31343ECF2FE0904700E225CF /* ForecastDayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDayViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,7 +223,8 @@
 		31343EC32FE0718000E225CF /* ForecastDayDetails */ = {
 			isa = PBXGroup;
 			children = (
-				31343EC42FE071A100E225CF /* ForecastDayDetailsView.swift */,
+				31343ECE2FE08FBF00E225CF /* ViewModel */,
+				31343ECD2FE08FB500E225CF /* View */,
 			);
 			path = ForecastDayDetails;
 			sourceTree = "<group>";
@@ -234,6 +237,22 @@
 				31343ECB2FE08B8800E225CF /* BottomSection.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		31343ECD2FE08FB500E225CF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				31343EC42FE071A100E225CF /* ForecastDayDetailsView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		31343ECE2FE08FBF00E225CF /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				31343ECF2FE0904700E225CF /* ForecastDayViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -382,6 +401,7 @@
 				31343EC02FE069DE00E225CF /* ForecastDayWeather.swift in Sources */,
 				31343EC52FE071A100E225CF /* ForecastDayDetailsView.swift in Sources */,
 				31343ECC2FE08B8800E225CF /* BottomSection.swift in Sources */,
+				31343ED02FE0904700E225CF /* ForecastDayViewModel.swift in Sources */,
 				31343EB82FE05C3200E225CF /* HomeViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

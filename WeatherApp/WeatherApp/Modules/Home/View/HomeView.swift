@@ -31,7 +31,7 @@ struct HomeView: View {
                     ScrollView {
                         VStack(spacing: 40) {
                             TopSection(weather: weather)
-                            MiddleSection(weather: weather,textColor: viewModel.textColor,formatDay: viewModel.formatDay)
+                            MiddleSection(weather: weather,textColor: viewModel.textColor,formatDay: viewModel.formatDay,isMorning: viewModel.isMorning)
                             BottomSection(weather: weather)
                         }
                         .padding(.horizontal, 24)

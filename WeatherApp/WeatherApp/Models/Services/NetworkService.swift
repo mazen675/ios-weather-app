@@ -27,13 +27,6 @@ class NetworkService {
                 let response = try decoder.decode(WeatherResponse.self, from: data)
                 completion(.success(response))
             } catch {
-                if let decodingError = error as? DecodingError {
-                    print("❌ DECODING ERROR: \(decodingError)")
-                }
-                
-                if let jsonString = String(data: data, encoding: .utf8) {
-                    print("🌍 RAW JSON: \(jsonString)")
-                }
                 completion(.failure(error))
             }
           }

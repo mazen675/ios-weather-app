@@ -11,6 +11,7 @@ struct MiddleSection: View {
     let weather: WeatherResponse
     let textColor: Color
     let formatDay: (String, Int) -> String
+    let isMorning: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -21,7 +22,7 @@ struct MiddleSection: View {
             Divider().background(textColor)
             
             ForEach(Array(weather.forecast.forecastday.enumerated()), id: \.element.date) { index, day in
-                NavigationLink(destination: ForecastDayDetailsView(forecastDay: day)) {
+                NavigationLink(destination: ForecastDayDetailsView(forecastDay: day,isMorning: isMorning)) {
                     HStack {
                         Text(formatDay(day.date, index))
                             .frame(width: 80, alignment: .leading)
