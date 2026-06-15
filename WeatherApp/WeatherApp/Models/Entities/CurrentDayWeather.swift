@@ -24,8 +24,8 @@ struct Current: Codable {
     let condition: Condition
     let windKph: Double
     let humidity: Int
-    let feelslikeC: Double
-    let pressureMb: Double
+    let feelslikeC: Double?
+    let pressureMb: Double?
 }
 
 struct Condition: Codable {

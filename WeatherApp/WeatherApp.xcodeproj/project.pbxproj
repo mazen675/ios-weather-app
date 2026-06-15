@@ -20,6 +20,10 @@
 		31343EBC2FE05CFE00E225CF /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31343EBB2FE05CFE00E225CF /* NetworkService.swift */; };
 		31343EBE2FE0625F00E225CF /* CurrentDayWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31343EBD2FE0625F00E225CF /* CurrentDayWeather.swift */; };
 		31343EC02FE069DE00E225CF /* ForecastDayWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31343EBF2FE069DE00E225CF /* ForecastDayWeather.swift */; };
+		31343EC52FE071A100E225CF /* ForecastDayDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31343EC42FE071A100E225CF /* ForecastDayDetailsView.swift */; };
+		31343EC82FE0885D00E225CF /* TopSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31343EC72FE0885D00E225CF /* TopSection.swift */; };
+		31343ECA2FE08B7900E225CF /* MiddleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31343EC92FE08B7900E225CF /* MiddleSection.swift */; };
+		31343ECC2FE08B8800E225CF /* BottomSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31343ECB2FE08B8800E225CF /* BottomSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +59,10 @@
 		31343EBB2FE05CFE00E225CF /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		31343EBD2FE0625F00E225CF /* CurrentDayWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDayWeather.swift; sourceTree = "<group>"; };
 		31343EBF2FE069DE00E225CF /* ForecastDayWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDayWeather.swift; sourceTree = "<group>"; };
+		31343EC42FE071A100E225CF /* ForecastDayDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDayDetailsView.swift; sourceTree = "<group>"; };
+		31343EC72FE0885D00E225CF /* TopSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSection.swift; sourceTree = "<group>"; };
+		31343EC92FE08B7900E225CF /* MiddleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiddleSection.swift; sourceTree = "<group>"; };
+		31343ECB2FE08B8800E225CF /* BottomSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +159,7 @@
 		31343EAE2FE050CB00E225CF /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				31343EC32FE0718000E225CF /* ForecastDayDetails */,
 				31343EB22FE0534100E225CF /* Home */,
 			);
 			path = Modules;
@@ -168,6 +177,7 @@
 		31343EB32FE0534D00E225CF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				31343EC62FE0883100E225CF /* Components */,
 				31343EB42FE0535B00E225CF /* HomeView.swift */,
 			);
 			path = View;
@@ -206,6 +216,24 @@
 				31343E872FE04FDD00E225CF /* Assets.xcassets */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		31343EC32FE0718000E225CF /* ForecastDayDetails */ = {
+			isa = PBXGroup;
+			children = (
+				31343EC42FE071A100E225CF /* ForecastDayDetailsView.swift */,
+			);
+			path = ForecastDayDetails;
+			sourceTree = "<group>";
+		};
+		31343EC62FE0883100E225CF /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				31343EC72FE0885D00E225CF /* TopSection.swift */,
+				31343EC92FE08B7900E225CF /* MiddleSection.swift */,
+				31343ECB2FE08B8800E225CF /* BottomSection.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -344,12 +372,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31343ECA2FE08B7900E225CF /* MiddleSection.swift in Sources */,
 				31343EBE2FE0625F00E225CF /* CurrentDayWeather.swift in Sources */,
 				31343EBC2FE05CFE00E225CF /* NetworkService.swift in Sources */,
 				31343E842FE04FDB00E225CF /* ContentView.swift in Sources */,
 				31343E822FE04FDB00E225CF /* WeatherAppApp.swift in Sources */,
 				31343EB52FE0535B00E225CF /* HomeView.swift in Sources */,
+				31343EC82FE0885D00E225CF /* TopSection.swift in Sources */,
 				31343EC02FE069DE00E225CF /* ForecastDayWeather.swift in Sources */,
+				31343EC52FE071A100E225CF /* ForecastDayDetailsView.swift in Sources */,
+				31343ECC2FE08B8800E225CF /* BottomSection.swift in Sources */,
 				31343EB82FE05C3200E225CF /* HomeViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
