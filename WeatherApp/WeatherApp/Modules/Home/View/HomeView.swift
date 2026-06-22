@@ -7,72 +7,105 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import SwiftData
 
 struct HomeView: View {
-    @StateObject private var viewModel = HomeViewModel()
+    @Environment(\.modelContext) private var context
+    @Query private var favorites: [FavoriteCity]
+    
     @State private var isViewingSearchedCity = false
+    @State private var searchedName = ""
+    @State private var searchedLat = 0.0
+    @State private var searchedLon = 0.0
+    @State private var showCities = false
+    @State private var selectedTab: String = "current_location"
+    
+    var isCurrentSearchFavorite: Bool {
+        favorites.contains { $0.id == "\(searchedLat),\(searchedLon)" }
+    }
+    
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Group {
-                    if let asset = NSDataAsset(name: viewModel.isMorning ? "morning" : "evening") {
-                        AnimatedImage(data: asset.data)
-                            .resizable()
-                            .scaledToFill()
-                            .ignoresSafeArea()
-                    } else {
-                        Color.blue.ignoresSafeArea()
-                    }
-                }
-                
-                if viewModel.isLoading {
-                    ProgressView()
-                } else if let weather = viewModel.weather {
-                    ScrollView {
-                        VStack(spacing: 40) {
-                            TopSection(weather: weather)
-                            MiddleSection(weather: weather,textColor: viewModel.textColor,formatDay: viewModel.formatDay,isMorning: viewModel.isMorning)
-                            BottomSection(weather: weather)
+        if isViewingSearchedCity {
+            NavigationStack {
+                WeatherPageView(lat: searchedLat, lon: searchedLon)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(action: { isViewingSearchedCity = false }) {
+                                HStack {
+                                    Image(systemName: "chevron.left")
+                                    Text("Back")
+                                }.foregroundColor(.white)
+                            }
                         }
-                        .padding(.horizontal, 24)
-                        .padding(.vertical)
-                        .foregroundColor(viewModel.textColor)
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button(action: { toggleFavorite() }) {
+                                Image(systemName: isCurrentSearchFavorite ? "heart.fill" : "heart")
+                                    .foregroundColor(isCurrentSearchFavorite ? .red : .white)
+                                    .font(.title2)
+                            }
+                        }
                     }
-                } else if let error = viewModel.errorMessage {
-                    Text(error).foregroundColor(.red)
+                    .toolbarBackground(.hidden, for: .navigationBar)
+            }
+        } else {
+            TabView(selection: $selectedTab) {
+                WeatherPageView(lat: 31.2001, lon: 29.9187).tag("current_location")
+                ForEach(favorites) { favorite in
+                    WeatherPageView(lat: favorite.lat, lon: favorite.lon).tag(favorite.id)
                 }
             }
-            .onAppear {
-                viewModel.loadInitialWeather()
-            }.toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: CitiesView { selectedLat, selectedLon in
-                        viewModel.fetchWeather(lat: selectedLat, lon: selectedLon)
+            .tabViewStyle(.page(indexDisplayMode: .always))
+            .ignoresSafeArea(.all)
+            .sheet(isPresented: $showCities) {
+                NavigationStack {
+                    CitiesView { name, lat, lon in
+                        searchedName = name
+                        searchedLat = lat
+                        searchedLon = lon
                         isViewingSearchedCity = true
-                    }) {
-                        Image(systemName: "list.bullet")
-                            .font(.title3)
-                            .foregroundColor(viewModel.textColor)
+                        showCities = false
                     }
                 }
-                
-                if isViewingSearchedCity {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: {
-                            viewModel.fetchWeather()
-                            isViewingSearchedCity = false
-                        }) {
-                            HStack {
-                                Image(systemName: "house")
-                                Text("Home")
-                            }
-                            .foregroundColor(viewModel.textColor)
-                        }
+            }
+            .overlay(alignment: .topTrailing) {
+                Button(action: { showCities = true }) {
+                    Image(systemName: "list.bullet")
+                        .font(.title3)
+                        .foregroundColor(.white)
+                        .padding()
+                        .padding(.top)
+                }
+            }
+            .overlay(alignment: .topLeading) {
+                if selectedTab != "current_location" {
+                    Button(action: { deleteCurrentFavorite() }) {
+                        Image(systemName: "trash")
+                            .font(.title3)
+                            .foregroundColor(.white)
+                            .padding()
+                            .padding(.top,10)
                     }
                 }
             }
         }
     }
+    private func toggleFavorite() {
+        if isCurrentSearchFavorite {
+            if let cityToDelete = favorites.first(where: { $0.id == "\(searchedLat),\(searchedLon)" }) {
+                context.delete(cityToDelete)
+            }
+        } else {
+            let newFavorite = FavoriteCity(name: searchedName, lat: searchedLat, lon: searchedLon)
+            context.insert(newFavorite)
+        }
+    }
+    
+    private func deleteCurrentFavorite() {
+            if let cityToDelete = favorites.first(where: { $0.id == selectedTab }) {
+                context.delete(cityToDelete)
+                // selectedTab = "current_location"
+            }
+        }
 }
 
 #Preview {

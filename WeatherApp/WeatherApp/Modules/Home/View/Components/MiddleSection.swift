@@ -7,11 +7,14 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+
 struct MiddleSection: View {
     let weather: WeatherResponse
     let textColor: Color
     let formatDay: (String, Int) -> String
     let isMorning: Bool
+    
+    let onDaySelected: (ForecastDay) -> Void
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -22,7 +25,9 @@ struct MiddleSection: View {
             Divider().background(textColor)
             
             ForEach(Array(weather.forecast.forecastday.enumerated()), id: \.element.date) { index, day in
-                NavigationLink(destination: ForecastDayDetailsView(forecastDay: day,isMorning: isMorning)) {
+                Button(action: {
+                    onDaySelected(day)
+                }) {
                     HStack {
                         Text(formatDay(day.date, index))
                             .frame(width: 80, alignment: .leading)
@@ -48,7 +53,3 @@ struct MiddleSection: View {
         }
     }
 }
-
-//#Preview {
-//    MiddleSection()
-//}

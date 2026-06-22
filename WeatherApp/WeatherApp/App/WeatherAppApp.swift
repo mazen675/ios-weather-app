@@ -27,6 +27,6 @@ struct WeatherAppApp: App {
         WindowGroup {
             ContentView()
         }
-       // .modelContainer(sharedModelContainer)
+        .modelContainer(for: FavoriteCity.self)
     }
 }

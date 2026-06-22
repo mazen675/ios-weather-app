@@ -11,12 +11,12 @@ struct CitiesView: View {
     @StateObject private var viewModel = CitiesViewModel()
     @Environment(\.dismiss) private var dismiss
     
-    var onCitySelected: ((Double, Double) -> Void)
+    var onCitySelected: ((String, Double, Double) -> Void)
     
     var body: some View {
         List(viewModel.filteredCities) { localCity in
             Button(action: {
-                onCitySelected(localCity.latitude, localCity.longitude)
+                onCitySelected(localCity.city, localCity.latitude, localCity.longitude)
                 
                 dismiss()
             }) {

@@ -28,10 +28,8 @@ struct TopSection: View {
             
             WebImage(url: URL(string: "https:\(weather.current.condition.icon)"))
                 .resizable()
-                .indicator(.progress) 
+                .indicator(.progress)
                 .scaledToFit()
-                .background(Color.white)
-                .clipShape(Circle())
                 .frame(width: 64, height: 64)
         }
     }
