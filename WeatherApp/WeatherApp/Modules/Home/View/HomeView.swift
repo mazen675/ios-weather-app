@@ -11,6 +11,9 @@ import SwiftData
 
 struct HomeView: View {
     @Environment(\.modelContext) private var context
+    
+    @StateObject private var viewModel = HomeViewModel()
+    
     @Query private var favorites: [FavoriteCity]
     
     @State private var isViewingSearchedCity = false
@@ -27,7 +30,7 @@ struct HomeView: View {
     var body: some View {
         if isViewingSearchedCity {
             NavigationStack {
-                WeatherPageView(lat: searchedLat, lon: searchedLon)
+                WeatherPageView(lat: searchedLat, lon: searchedLon, fetchMode: .onlineOnly)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading) {
                             Button(action: { isViewingSearchedCity = false }) {
@@ -49,21 +52,41 @@ struct HomeView: View {
             }
         } else {
             TabView(selection: $selectedTab) {
-                WeatherPageView(lat: 31.2001, lon: 29.9187).tag("current_location")
-                ForEach(favorites) { favorite in
-                    WeatherPageView(lat: favorite.lat, lon: favorite.lon).tag(favorite.id)
+                if let loc = viewModel.currentLocation {
+                    WeatherPageView(lat: loc.latitude, lon: loc.longitude, fetchMode: .offlineFirst(context)).tag("current_location")
+                } else {
+                    VStack {
+                        ProgressView()
+                        Text("Locating...").foregroundColor(.white).padding()
+                    }.tag("current_location")
                 }
+                ForEach(favorites) { favorite in
+                    WeatherPageView(lat: favorite.lat, lon: favorite.lon, fetchMode: .offlineFirst(context)).tag(favorite.id)
+                }
+            }       
+            .alert("Offline", isPresented: $viewModel.showOfflineAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("You are not connected to the internet. Cannot search for new cities.")
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .ignoresSafeArea(.all)
             .sheet(isPresented: $showCities) {
                 NavigationStack {
                     CitiesView { name, lat, lon in
-                        searchedName = name
-                        searchedLat = lat
-                        searchedLon = lon
-                        isViewingSearchedCity = true
-                        showCities = false
+                        if viewModel.isConnected {
+                            viewModel.showOfflineAlert = false
+                            searchedName = name
+                            searchedLat = lat
+                            searchedLon = lon
+                            isViewingSearchedCity = true
+                            showCities = false
+                        } else {
+                            showCities = false
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                viewModel.showOfflineAlert = true
+                            }
+                        }
                     }
                 }
             }

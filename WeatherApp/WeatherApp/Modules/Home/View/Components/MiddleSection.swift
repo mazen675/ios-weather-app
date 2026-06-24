@@ -19,7 +19,7 @@ struct MiddleSection: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("3-DAY FORECAST")
-                .font(.caption)
+                .font(.system(size: 12, weight: .bold))
                 .opacity(0.8)
             
             Divider().background(textColor)
@@ -30,6 +30,7 @@ struct MiddleSection: View {
                 }) {
                     HStack {
                         Text(formatDay(day.date, index))
+                            .font(.system(size: 18, weight: .semibold))
                             .frame(width: 80, alignment: .leading)
                         
                         Spacer()
@@ -43,7 +44,7 @@ struct MiddleSection: View {
                         Spacer()
                         
                         Text("\(day.day.mintempC, specifier: "%.1f")° - \(day.day.maxtempC, specifier: "%.1f")°")
-                            .frame(width: 100, alignment: .trailing)
+                            .frame(width: 120, alignment: .trailing)
                     }
                     .padding(.vertical, 8)
                     .foregroundColor(textColor)

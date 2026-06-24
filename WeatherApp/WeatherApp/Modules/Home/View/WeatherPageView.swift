@@ -9,9 +9,15 @@
 import Foundation
 import SwiftUI
 import SDWebImageSwiftUI
+import SwiftData
 
 extension ForecastDay: Identifiable {
     public var id: String { date }
+}
+
+enum WeatherFetchMode {
+    case offlineFirst(ModelContext)
+    case onlineOnly
 }
 
 struct WeatherPageView: View {
@@ -21,6 +27,7 @@ struct WeatherPageView: View {
 
     let lat: Double
     let lon: Double
+    let fetchMode: WeatherFetchMode
     
     var body: some View {
         ZStack {
@@ -72,7 +79,12 @@ struct WeatherPageView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
             .onAppear {
-                viewModel.fetchWeather(lat: lat, lon: lon)
+                switch fetchMode {
+                case .offlineFirst(let context):
+                    viewModel.fetchWeatherOfflineFirst(lat: lat, lon: lon, context: context)
+                case .onlineOnly:
+                    viewModel.fetchWeatherOnline(lat: lat, lon: lon)
+                }
             }
         }
         .fullScreenCover(item: $selectedDayToView) { forecastDay in

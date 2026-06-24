@@ -14,13 +14,11 @@ class FavoriteCity {
     var name: String
     var lat: Double
     var lon: Double
-    var weatherData: Data?
     
-    init(name: String, lat: Double, lon: Double, weatherData: Data? = nil) {
+    init(name: String, lat: Double, lon: Double) {
         self.id = "\(lat),\(lon)"
         self.name = name
         self.lat = lat
         self.lon = lon
-        self.weatherData = weatherData
     }
 }

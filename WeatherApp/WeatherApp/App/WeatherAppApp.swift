@@ -27,6 +27,9 @@ struct WeatherAppApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: FavoriteCity.self)
+        .modelContainer(for: [
+                    FavoriteCity.self,
+                    CachedWeather.self
+         ])
     }
 }

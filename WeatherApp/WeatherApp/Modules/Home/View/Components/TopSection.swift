@@ -15,6 +15,9 @@ struct TopSection: View {
             Text(weather.location.name)
                 .font(.system(size: 36, weight: .bold))
             
+            Text("\(weather.location.region) . \(weather.location.country)")
+                .font(.system(size: 18, weight: .semibold))
+            
             Text("\(Int(weather.current.tempC))°")
                 .font(.system(size: 64, weight: .thin))
             
