@@ -4,53 +4,38 @@
 //
 //  Created by Mazen Amr on 16/06/2026.
 //
-
 import Foundation
+import Combine
 
 class CitiesViewModel: ObservableObject {
     @Published var filteredCities: [LocalCity] = []
-    @Published var searchText = "" {
-        didSet {
-            filterCities()
-        }
-    }
+    @Published var searchText = ""
     
-    private var searchWorkItem: DispatchWorkItem?
+    private var cancellables = Set<AnyCancellable>()
     
     init() {
         self.filteredCities = Array(Cities.prefix(50))
+        setupSearchPublisher()
     }
     
-    private func filterCities() {
-            searchWorkItem?.cancel()
-            
-            let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-            
-            if query.isEmpty {
-                self.filteredCities = Array(Cities.prefix(50))
-                return
-            }
-            
-            var workItem: DispatchWorkItem!
-            
-            workItem = DispatchWorkItem { [weak self] in
-                guard let self = self else { return }
+    private func setupSearchPublisher() {
+        $searchText
+            .debounce(for: .seconds(0.2), scheduler: DispatchQueue.global(qos: .userInteractive))
+            .map { query -> [LocalCity] in
+                let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+                
+                if trimmed.isEmpty {
+                    return Array(Cities.prefix(50))
+                }
                 
                 let matches = Cities.filter { city in
-                    city.city.localizedCaseInsensitiveContains(query) ||
-                    city.country.localizedCaseInsensitiveContains(query)
+                    city.city.localizedCaseInsensitiveContains(trimmed) ||
+                    city.country.localizedCaseInsensitiveContains(trimmed)
                 }
                 
-                let limitedMatches = Array(matches.prefix(100))
-                
-                DispatchQueue.main.async {
-                    if !workItem.isCancelled {
-                        self.filteredCities = limitedMatches
-                    }
-                }
+                return Array(matches.prefix(100))
             }
-            
-            self.searchWorkItem = workItem
-            DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 0.2, execute: workItem)
-        }
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$filteredCities) 
+    }
 }

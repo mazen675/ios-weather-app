@@ -31,7 +31,7 @@ struct CitiesView: View {
                 }
             }
         }
-        .navigationTitle("Saved Locations")
+        .navigationTitle("Locations")
         .searchable(text: $viewModel.searchText, prompt: "Search for a city globally")
     }
 }
